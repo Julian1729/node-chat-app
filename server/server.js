@@ -24,17 +24,36 @@ io.on('connection', (socket) => {
   //   createdAt: 123
   // });
 
-  socket.on('createMessage', (createdMessage) => {
-    console.log('Message Created: ', createdMessage);
-    // emit to every connection
-    io.emit('newMessage', {
-      from: createdMessage.from,
-      text: createdMessage.text,
-      createdAt: new Date().getTime()
-    })
+  // message to user who joined (from admin) text: welcome to the chat app
+  socket.emit('newMessage', {
+    from: 'Admin',
+    text: 'Welcome to the chat app',
+    createdAt: new Date().getTime()
   });
 
-  socket.on
+  // socket.broadcast emit from admin, new user joined
+  socket.broadcast.emit('newMessage', {
+    from: 'Admin',
+    text: 'New User Joined',
+    createdAt: new Date().getTime()
+  });
+
+  socket.on('createMessage', (message) => {
+    console.log('Message Created: ', message);
+    // emit to every connection
+      io.emit('newMessage', {
+        from: message.from,
+        text: message.text,
+        createdAt: new Date().getTime()
+      });
+    // socket.broadcast.emit('newMessage', {
+    //   from: message.from,
+    //   text: message.text,
+    //   createdAt: new Date().getTime()
+    // });
+  });
+
+
 
 });
 
