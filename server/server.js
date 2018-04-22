@@ -18,14 +18,20 @@ io.on('connection', (socket) => {
   console.log('New User connected');
 
   // emit (create) an event
-  socket.emit('newMessage', {
-    from: "julian hernandez",
-    text: "this is text",
-    createdAt: 123
-  });
+  // socket.emit('newMessage', {
+  //   from: "julian hernandez",
+  //   text: "this is text",
+  //   createdAt: 123
+  // });
 
   socket.on('createMessage', (createdMessage) => {
     console.log('Message Created: ', createdMessage);
+    // emit to every connection
+    io.emit('newMessage', {
+      from: createdMessage.from,
+      text: createdMessage.text,
+      createdAt: new Date().getTime()
+    })
   });
 
   socket.on
