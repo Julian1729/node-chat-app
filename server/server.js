@@ -35,11 +35,12 @@ io.on('connection', (socket) => {
     console.log('Message Created: ', message);
     // emit to every connection
       io.emit('newMessage', generateMessage(message.from, message.text));
-
+      callback();
   });
 
-  socket.on('createLocationMessage', (coords) => {
+  socket.on('createLocationMessage', (coords, callback) => {
     io.emit('newLocationMessage', generateLocationMessage('Admin', coords.latitude, coords.longitude));
+    callback();
   });
 
 
